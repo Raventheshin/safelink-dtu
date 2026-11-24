@@ -3,127 +3,212 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>SafeLink DTU – Kiểm tra link lừa đảo cho sinh viên</title>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&display=swap" rel="stylesheet">
+<title>SafeLink DTU – Kiểm tra link, số điện thoại và tin nhắn đáng ngờ</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#F6F4EE;--card:#FBFAF7;--ink:#111;--bgink:#F6F4EE;--mute:#6f6a60;--line:#BEB8AD;--accent:#C8381A;--warn:#9a6b00;--b1:#E6E1D7;--b2:#BEB8AD;--b3:#777;--b4:#111;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#111110;--card:#181816;--ink:#F6F4EE;--bgink:#111110;--mute:#9a958b;--line:#3a3835;--accent:#FF6A4D;--warn:#e0b04a;--b1:#1c1b18;--b2:#2a2926;--b3:#44423d;--b4:#050505}}
-:root[data-theme="dark"]{color-scheme:dark;--bg:#111110;--card:#181816;--ink:#F6F4EE;--bgink:#111110;--mute:#9a958b;--line:#3a3835;--accent:#FF6A4D;--warn:#e0b04a;--b1:#1c1b18;--b2:#2a2926;--b3:#44423d;--b4:#050505}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
+:root{color-scheme:dark;--bg:#10100F;--s1:#181817;--s2:#20201E;--bd:#302F2C;--tx:#F4F0E8;--t2:#A5A098;--ac:#FF7057;--ok:#8fc9a0;--wn:#e6b050;--dg:#f26a6a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-behavior:smooth;scroll-padding-top:16px}
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font:400 16px/1.7 "Be Vietnam Pro",system-ui,sans-serif}
-.wrap{max-width:900px;margin:0 auto;padding:32px 20px 24px}
-.lab{margin:0;font-size:12px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
-.hero{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-end}
-h1{margin:10px 0 6px;font-size:clamp(40px,9vw,72px);line-height:1;font-weight:500;letter-spacing:.01em}
-h1 span{color:var(--mute)}
-.tag{margin:0;letter-spacing:.06em}
-.concept{margin:0;padding:0;list-style:none;font-size:14px;letter-spacing:.05em;color:var(--mute)}
-.concept li::before{content:"• "}
-.sky{display:block;width:100%;height:auto;margin:28px 0 0;border:1px solid var(--line);border-radius:20px;background:var(--bg)}
-.sky .b1{fill:var(--b1)}.sky .b2{fill:var(--b2)}.sky .b3{fill:var(--b3)}.sky .b4{fill:var(--b4)}.sky .ac{fill:var(--accent)}
-.sys{display:grid;grid-template-columns:repeat(3,1fr);margin:18px 0 30px}
-.sys div{padding:2px 16px;border-left:1px solid var(--line);font-size:14px}
-.sys div:first-child{border:0;padding-left:0}
-.sys b{display:block;font-weight:500;font-size:15px}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
-.tabs button{display:flex;align-items:center;gap:8px;font:inherit;font-size:14px;letter-spacing:.03em;padding:8px 18px;border:1px solid var(--line);border-radius:99px;background:transparent;color:var(--ink);cursor:pointer;transition:background .2s,color .2s}
-.tabs button:hover{border-color:var(--ink)}
-.tabs button[aria-selected=true]{background:var(--ink);color:var(--bgink);border-color:var(--ink)}
-button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px}
-label{display:block;margin-bottom:8px;font-size:12px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
-input[type=text],input[type=file],textarea,select{width:100%;font:inherit;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:transparent;color:var(--ink)}
-input[type=text]:focus,textarea:focus{border-color:var(--ink)}
-textarea{min-height:130px;resize:vertical}
-.go{margin-top:16px;font:inherit;letter-spacing:.04em;padding:12px 30px;border:0;border-radius:99px;background:var(--ink);color:var(--bgink);cursor:pointer;transition:opacity .15s}
-.go:hover{opacity:.82}
-.chips{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px;font-size:13px;color:var(--mute)}
-.chip{font:inherit;font-size:13px;padding:3px 14px;border-radius:99px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
-.chip:hover{border-color:var(--ink)}
-.hint{color:var(--mute);font-size:13px;margin:12px 0 0}
-#result{margin-top:22px}
-.res{--c:var(--ink);border:1px solid var(--c);border-radius:18px;padding:22px;animation:in .35s ease}
-.res.warn{--c:var(--warn)}.res.bad{--c:var(--accent)}
-.rhead{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
-.res h2{margin:6px 0 0;font-size:24px;font-weight:500;line-height:1.2;color:var(--c)}
-.pct{font-size:46px;line-height:1;font-weight:500;color:var(--c)}.pct small{font-size:14px;color:var(--mute);font-weight:400}
-.bar{height:12px;border:1px solid var(--c);border-radius:99px;overflow:hidden;margin:14px 0 18px}
-.bar i{display:block;height:100%;background:var(--c);animation:grow .8s ease}
-.res ul{padding-left:20px;margin:8px 0}.res li{margin:6px 0}
-.advice{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+body{margin:0;background:var(--bg);color:var(--tx);font:400 16px/1.65 Inter,system-ui,"Segoe UI",sans-serif}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ac);outline-offset:3px}
+.nav{display:flex;align-items:center;gap:28px;flex-wrap:wrap;padding-top:22px;padding-bottom:22px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:-.01em}
+.logo svg{color:var(--ac)}
+.nav nav{display:flex;gap:24px;margin-left:12px;color:var(--t2);font-size:15px}
+.nav nav a:hover{color:var(--tx)}
+.priv{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--t2);border:1px solid var(--bd);border-radius:99px;padding:5px 14px}
+.priv::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok)}
+#mb{display:none;background:none;border:1px solid var(--bd);border-radius:12px;padding:8px;cursor:pointer}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;padding-top:40px;padding-bottom:56px}
+.eye{margin:0;font-size:12px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--t2)}
+h1{margin:18px 0 20px;font-size:clamp(38px,6.2vw,68px);line-height:1.04;font-weight:600;letter-spacing:-.035em}
+h1 em{font-style:normal;color:var(--ac)}
+.lead{margin:0 0 28px;font-size:18px;color:var(--t2);max-width:46ch}
+.btn{display:inline-flex;align-items:center;gap:10px;border:0;border-radius:14px;background:var(--ac);color:#1c0e0a;font-weight:600;padding:14px 26px;cursor:pointer;transition:transform .15s,filter .15s}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.08)}
+#net{width:100%;height:auto;max-height:380px}
+#net line{stroke:var(--bd);stroke-width:1}
+#net circle.n{fill:var(--s2);stroke:var(--t2);stroke-width:1.5;animation:pulse 3s ease-in-out infinite}
+@keyframes pulse{50%{stroke:var(--ac);fill:rgba(255,112,87,.25)}}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);padding:0}
+.steps div{padding:22px 24px;border-left:1px solid var(--bd);transition:background .2s}
+.steps div:first-child{border:0;padding-left:0}
+.steps div:hover{background:var(--s1)}
+.steps b{display:block;font-weight:500;margin-top:4px}
+#scanner{padding-top:56px}
+.panel{background:var(--s1);border:1px solid var(--bd);border-radius:22px;padding:24px}
+.tabs{display:flex;gap:6px;padding:5px;background:var(--bg);border:1px solid var(--bd);border-radius:16px;margin-bottom:22px;overflow-x:auto}
+.tabs button{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;background:none;border:0;border-radius:12px;padding:10px 14px;color:var(--t2);cursor:pointer;transition:background .2s,color .2s}
+.tabs button:hover{color:var(--tx)}
+.tabs button[aria-selected=true]{background:var(--s2);color:var(--tx);box-shadow:inset 0 0 0 1px var(--bd)}
+.tabs button[aria-selected=true] svg{color:var(--ac)}
+label{display:block;margin-bottom:8px;font-size:14px;color:var(--t2)}
+input[type=text],select,textarea{width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:14px;padding:15px 18px;transition:border-color .2s}
+input[type=text]{font-size:18px}
+input:focus,select:focus,textarea:focus{border-color:var(--ac);outline:0}
+textarea{min-height:150px;resize:vertical}
+.row2{display:grid;grid-template-columns:200px 1fr;gap:10px}
+.err{margin:8px 0 0;color:var(--dg);font-size:14px}
+.chips{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 18px;font-size:13px;color:var(--t2)}
+.chip{background:none;border:1px solid var(--bd);border-radius:99px;padding:3px 14px;font-size:13px;cursor:pointer}
+.chip:hover{border-color:var(--ac);color:var(--ac)}
+.cnt{margin:8px 0 14px;font-size:13px;color:var(--t2);display:flex;justify-content:space-between}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+#dz{display:grid;place-items:center;gap:6px;text-align:center;border:1.5px dashed var(--bd);border-radius:18px;padding:40px 16px;margin-bottom:18px;color:var(--t2);cursor:pointer;transition:border-color .2s,background .2s}
+#dz:hover,#dz.on,#f:focus-visible+#dz{border-color:var(--ac);background:rgba(255,112,87,.06)}
+#dz svg{color:var(--ac)}
+#pvw{position:relative;margin-bottom:18px}
+#pv{max-width:100%;max-height:260px;border-radius:14px;border:1px solid var(--bd);display:block}
+#rm{position:absolute;top:8px;left:8px;display:flex;align-items:center;gap:6px;background:rgba(16,16,15,.85);border:1px solid var(--bd);border-radius:99px;padding:5px 12px;font-size:13px;cursor:pointer}
+.note{margin:18px 0 0;display:flex;gap:10px;font-size:13px;color:var(--t2)}
+.note svg{flex:none;margin-top:3px}
+#out{margin-top:22px}
+.empty,.load,.res,.ecard{background:var(--s1);border:1px solid var(--bd);border-radius:22px;padding:28px}
+.empty{text-align:center;color:var(--t2)}
+.empty svg{color:var(--bd)}.empty b{display:block;color:var(--tx);font-weight:500;margin-top:6px}
+.load{position:relative;overflow:hidden;display:grid;justify-items:center;gap:18px;padding:40px 28px}
+.scan{position:absolute;left:0;right:0;height:80px;top:-80px;background:linear-gradient(transparent,rgba(255,112,87,.18),transparent);border-bottom:1px solid rgba(255,112,87,.5);animation:sweep 2.2s linear infinite}
+@keyframes sweep{to{top:100%}}
+.spin{color:var(--ac);animation:rot 6s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+#st{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:15px}
+#st li{color:var(--bd);padding-left:22px;position:relative}
+#st li::before{content:"";position:absolute;left:0;top:9px;width:8px;height:8px;border-radius:50%;border:1.5px solid currentColor}
+#st li.on{color:var(--tx)}#st li.on::before{background:var(--ac);border-color:var(--ac)}
+#st li.done{color:var(--t2)}#st li.done::before{background:var(--ok);border-color:var(--ok)}
+.res{--c:var(--ok);display:grid;grid-template-columns:170px 1fr;gap:28px;animation:in .4s ease}
+.res.warn{--c:var(--wn)}.res.bad{--c:var(--dg)}
 @keyframes in{from{opacity:0;transform:translateY(8px)}}
-@keyframes grow{from{width:0}}
-h3{margin:42px 0 14px;font-size:12px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
-.row{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}
+.gauge{position:relative;width:150px;height:150px}
+.gz{width:150px;height:150px;transform:rotate(-90deg)}
+.gz circle{fill:none;stroke-width:9;stroke-linecap:round}
+.gb{stroke:var(--bd)}.gf{stroke:var(--c);animation:draw 1s ease}
+@keyframes draw{from{stroke-dashoffset:364.4}}
+.gn{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.gn b{font-size:42px;line-height:1;font-weight:600;color:var(--c)}.gn span{font-size:13px;color:var(--t2)}
+.chipv{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--c);color:var(--c);border-radius:99px;padding:4px 14px;font-weight:500;font-size:14px}
+.res h3{margin:12px 0 4px;font-size:20px;font-weight:500;letter-spacing:-.01em}
+.lab2{margin:20px 0 8px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--t2)}
+.res ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.res li{display:flex;gap:10px;align-items:flex-start;background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:10px 14px;font-size:15px}
+.res li svg{flex:none;margin-top:3px;color:var(--c)}
+.act li svg{color:var(--ok)}
+.fine{margin:18px 0 0;font-size:13px;color:var(--t2)}
+.ecard{display:flex;gap:12px;color:var(--dg)}.ecard p{margin:0;color:var(--tx)}
+h2{margin:0 0 6px;font-size:28px;font-weight:600;letter-spacing:-.02em}
+.sec{padding-top:64px}
+.row{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--bd)}
 .row:last-child{border:0}
-.tag-x,.row .tag{flex:none;font-size:12px;letter-spacing:.04em;padding:2px 12px;border-radius:99px;border:1px solid var(--accent);color:var(--accent)}
-.row small{color:var(--mute);display:block}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media(max-width:620px){.grid{grid-template-columns:1fr}.tabs button span{display:none}.tabs button[aria-selected=true] span{display:inline}.sys{grid-template-columns:1fr;gap:8px}.sys div{border:0;padding:0}}
-.note{border:1px dashed var(--line);border-radius:14px;padding:12px 14px;font-size:14px;margin-top:12px}
-img#pv{max-width:100%;max-height:220px;border-radius:14px;margin-top:10px;display:none}
-.foot{text-align:center;color:var(--mute);font-size:12px;letter-spacing:.08em;padding-top:8px}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.tag{flex:none;font-size:12px;border:1px solid var(--ac);color:var(--ac);border-radius:99px;padding:2px 12px}
+.row small{display:block;color:var(--t2)}
+.rep{display:grid;grid-template-columns:1fr 220px auto;gap:10px;margin-top:20px;align-items:start}
+.rep .btn{padding:14px 22px}
+footer{margin-top:80px;border-top:1px solid var(--bd);padding:44px 0 36px;color:var(--t2);font-size:14px}
+.fg{display:grid;grid-template-columns:1.4fr 1fr 1.4fr;gap:32px}
+footer b{display:block;color:var(--tx);font-weight:500;margin-bottom:6px}
+.copy{margin-top:32px;padding-top:20px;border-top:1px solid var(--bd);font-size:13px}
+@media(max-width:820px){.hero{grid-template-columns:1fr}#net{max-width:360px;margin:0 auto}.res{grid-template-columns:1fr}.fg{grid-template-columns:1fr}.rep{grid-template-columns:1fr}}
+@media(max-width:700px){.nav nav{display:none;order:3;width:100%;flex-direction:column;gap:12px;margin:0}.nav nav.open{display:flex}#mb{display:block;margin-left:0}.priv{margin-left:auto}.steps{grid-template-columns:1fr}.steps div{border:0;border-top:1px solid var(--bd);padding:16px 0}.steps div:first-child{border:0}.row2{grid-template-columns:1fr}.tabs button span{display:none}.tabs button[aria-selected=true] span{display:inline}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-<div class="wrap">
-<header>
-<div class="hero"><div><p class="lab">Online safety · Sinh viên DTU</p><h1>SafeLink<span> DTU</span></h1><p class="tag">Dừng 5 giây. Rồi hãy bấm.</p></div>
-<ul class="concept"><li>Dán link, số điện thoại, tin nhắn</li><li>AI chỉ ra dấu hiệu lừa đảo</li><li>Biết rủi ro trước khi bấm</li></ul></div>
-<svg class="sky" viewBox="0 0 800 180" role="img" aria-label="Thành phố và tấm khiên bảo vệ"><rect class="b1" x="20" y="90" width="60" height="90"/><rect class="b1" x="110" y="70" width="50" height="110"/><rect class="b1" x="300" y="80" width="70" height="100"/><rect class="b1" x="520" y="60" width="60" height="120"/><rect class="b1" x="700" y="85" width="70" height="95"/><rect class="b2" x="60" y="110" width="70" height="70"/><rect class="b2" x="170" y="95" width="60" height="85"/><rect class="b2" x="380" y="100" width="80" height="80"/><rect class="b2" x="470" y="120" width="60" height="60"/><rect class="b2" x="600" y="90" width="70" height="90"/><rect class="b3" x="0" y="135" width="110" height="45"/><rect class="b3" x="240" y="120" width="70" height="60"/><rect class="b3" x="430" y="140" width="100" height="40"/><rect class="b3" x="650" y="125" width="90" height="55"/><rect class="b4" x="130" y="150" width="120" height="30"/><rect class="b4" x="540" y="155" width="140" height="25"/><g transform="translate(596 131)"><path class="ac" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></g></svg>
-<div class="sys"><div><span class="lab">01 · Dán</span><b>Nội dung đáng ngờ</b></div><div><span class="lab">02 · Phân tích</span><b>AI đọc dấu hiệu</b></div><div><span class="lab">03 · Cảnh báo</span><b>Điểm rủi ro kèm lý do</b></div></div>
+<header class="nav wrap">
+<a class="logo" href="#top"><i data-i="shield" data-s="24"></i>SafeLink DTU</a>
+<nav id="nav"><a href="#top">Trang chủ</a><a href="#huong-dan">Hướng dẫn</a><a href="#ve-du-an">Về dự án</a></nav>
+<span class="priv">Không lưu nội dung bạn gửi</span>
+<button id="mb" aria-label="Mở menu" aria-expanded="false" aria-controls="nav"><i data-i="menu"></i></button>
 </header>
 
-<div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-t="url"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><span>Kiểm tra link</span></button><button role="tab" aria-selected="false" data-t="phone"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg><span>Số điện thoại</span></button><button role="tab" aria-selected="false" data-t="text"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Tin nhắn</span></button><button role="tab" aria-selected="false" data-t="img"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></svg><span>Ảnh chụp màn hình</span></button></div>
+<section class="wrap hero" id="top">
+<div>
+<p class="eye">Online safety · Sinh viên DTU</p>
+<h1>Đừng để một cú click trở thành <em>rủi ro.</em></h1>
+<p class="lead">Kiểm tra đường link, số điện thoại và tin nhắn đáng ngờ trước khi tương tác.</p>
+<a class="btn" href="#scanner">Kiểm tra ngay <i data-i="arrow"></i></a>
+</div>
+<svg id="net" viewBox="0 0 400 360" role="img" aria-label="Mạng lưới dữ liệu quanh tấm khiên bảo vệ">
+<defs><radialGradient id="gl"><stop offset="0" stop-color="#FF7057" stop-opacity=".42"/><stop offset="1" stop-color="#FF7057" stop-opacity="0"/></radialGradient></defs>
+<circle cx="200" cy="180" r="175" fill="url(#gl)"/><g id="ln"></g><g id="nd"></g>
+<g transform="translate(159 139) scale(3.4)" fill="#181817" stroke="#FF7057" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4" fill="none"/></g>
+</svg>
+</section>
 
+<section class="wrap steps" id="huong-dan">
+<div><p class="eye">01 — Dán</p><b>Nội dung đáng ngờ</b></div>
+<div><p class="eye">02 — Phân tích</p><b>AI đọc dấu hiệu</b></div>
+<div><p class="eye">03 — Cảnh báo</p><b>Điểm rủi ro kèm lý do</b></div>
+</section>
+
+<section class="wrap" id="scanner">
 <div class="panel">
+<div class="tabs" role="tablist">
+<button role="tab" aria-selected="true" data-t="url"><i data-i="link"></i><span>Kiểm tra link</span></button>
+<button role="tab" aria-selected="false" data-t="phone"><i data-i="phone"></i><span>Số điện thoại</span></button>
+<button role="tab" aria-selected="false" data-t="text"><i data-i="msg"></i><span>Tin nhắn</span></button>
+<button role="tab" aria-selected="false" data-t="img"><i data-i="image"></i><span>Ảnh chụp màn hình</span></button>
+</div>
 <div data-p="url">
-<label for="u">Dán đường link cần kiểm tra</label>
-<input type="text" id="u" placeholder="Ví dụ: http://hocbong-duytan.top/nhan-thuong">
+<label for="u">Đường link</label>
+<input type="text" id="u" inputmode="url" autocomplete="off" placeholder="Dán đường link bạn muốn kiểm tra..." aria-describedby="e-u">
+<p class="err" id="e-u" role="alert" hidden></p>
 <div class="chips"><span>Thử nhanh:</span><button type="button" class="chip" data-to="u" data-ex="http://hocbong-duytan.top/nhan-thuong">Link học bổng giả</button><button type="button" class="chip" data-to="u" data-ex="https://dtu.edu.vn">Trang DTU thật</button></div>
-<button class="go" data-go="url">Kiểm tra link</button>
+<button class="btn" data-go="url">Kiểm tra ngay</button>
 </div>
 <div data-p="phone" hidden>
-<label for="p">Nhập số điện thoại</label>
-<input type="text" id="p" inputmode="tel" placeholder="Ví dụ: +84 9xx xxx xxx">
-<button class="go" data-go="phone">Kiểm tra số</button>
+<label for="p">Số điện thoại</label>
+<div class="row2"><select id="cc" aria-label="Mã quốc gia"><option value="+84">+84 Việt Nam</option><option value="+1">+1 Hoa Kỳ / Canada</option><option value="+81">+81 Nhật Bản</option><option value="+82">+82 Hàn Quốc</option><option value="+86">+86 Trung Quốc</option><option value="+44">+44 Anh</option></select>
+<input type="text" id="p" inputmode="tel" autocomplete="off" placeholder="Ví dụ: 0912 345 678" aria-describedby="e-p"></div>
+<p class="err" id="e-p" role="alert" hidden></p>
+<div class="chips"></div>
+<button class="btn" data-go="phone">Kiểm tra ngay</button>
 </div>
 <div data-p="text" hidden>
-<label for="t">Dán nội dung tin nhắn</label>
-<textarea id="t" placeholder="Ví dụ: Tuyển CTV làm tại nhà, lương 500k/ngày, chuyển cọc 200k để nhận việc..."></textarea>
-<div class="chips"><span>Thử nhanh:</span><button type="button" class="chip" data-to="t" data-ex="Tuyển CTV làm tại nhà, lương 500k/ngày. Chuyển cọc 200k để nhận việc ngay, hết hạn trong 24h! Liên hệ Zalo để nhận nhiệm vụ.">Tin nhắn việc làm giả</button></div>
-<button class="go" data-go="text">Phân tích tin nhắn</button>
+<label for="t">Nội dung tin nhắn</label>
+<textarea id="t" maxlength="2000" placeholder="Dán nội dung tin nhắn, email hoặc bình luận đáng ngờ..." aria-describedby="e-t"></textarea>
+<div class="cnt"><span>Nên dán đủ ngữ cảnh, từ 10 đến 2000 ký tự.</span><span id="cnt">0/2000</span></div>
+<p class="err" id="e-t" role="alert" hidden></p>
+<div class="chips" style="margin-top:0"><span>Thử nhanh:</span><button type="button" class="chip" data-to="t" data-ex="Tuyển CTV làm tại nhà, lương 500k/ngày. Chuyển cọc 200k để nhận việc ngay, hết hạn trong 24h! Liên hệ Zalo để nhận nhiệm vụ.">Tin nhắn việc làm giả</button></div>
+<button class="btn" data-go="text">Kiểm tra ngay</button>
 </div>
 <div data-p="img" hidden>
-<label for="f">Tải ảnh chụp màn hình tin nhắn</label>
-<input type="file" id="f" accept="image/*">
-<img id="pv" alt="Ảnh đã chọn">
-<div class="note">Ảnh được gửi tới Gemini để đọc chữ và phân tích, nhóm không lưu lại ảnh. Đừng tải lên ảnh chứa mật khẩu hay thông tin ngân hàng của bạn.</div>
-<label for="t2" style="margin-top:12px">Ghi chú thêm (không bắt buộc)</label>
-<textarea id="t2"></textarea>
-<button class="go" data-go="img">Phân tích nội dung</button>
+<input type="file" id="f" class="sr" accept="image/*">
+<label id="dz" for="f"><i data-i="upload" data-s="30"></i><b>Kéo thả ảnh vào đây hoặc bấm để chọn</b><span>PNG, JPG, WebP, tối đa 10 MB</span></label>
+<div id="pvw" hidden><img id="pv" alt="Ảnh bạn đã chọn"><button type="button" id="rm"><i data-i="x" data-s="14"></i>Xóa ảnh</button></div>
+<p class="err" id="e-i" role="alert" hidden></p>
+<button class="btn" data-go="img">Kiểm tra ngay</button>
 </div>
-<div id="result" aria-live="polite"></div>
+<p class="note"><i data-i="lock" data-s="16"></i><span>Nội dung bạn gửi chỉ dùng để phân tích, nhóm dự án không lưu lại. Khi dùng AI, nội dung được gửi tới Gemini để xử lý. Đừng gửi mật khẩu, mã OTP hay thông tin ngân hàng của bạn.</span></p>
 </div>
+<div id="out" aria-live="polite"><div class="empty"><i data-i="shield" data-s="40"></i><b>Chưa có kết quả</b>Dán nội dung ở trên và bấm “Kiểm tra ngay” để xem điểm rủi ro cùng lý do.</div></div>
+</section>
 
-<h3>Cảnh báo từ cộng đồng sinh viên</h3>
-<div class="panel">
-<div id="list"></div>
-<h3 style="font-size:17px;margin-top:20px">Báo cáo một link lừa đảo</h3>
-<div class="grid">
-<div><label for="rl">Link hoặc số điện thoại</label><input type="text" id="rl"></div>
-<div><label for="rk">Loại lừa đảo</label>
-<select id="rk"><option>Việc làm thêm giả</option><option>Học bổng giả</option><option>Chiếm đoạt tài khoản</option><option>Giả mạo ngân hàng</option><option>Giả mạo nhà trường</option></select></div>
-</div>
-<button class="go" id="rs">Gửi cảnh báo</button>
-<p class="hint">Bản mẫu lưu cảnh báo trong trình duyệt của bạn. Bản đầy đủ sẽ dùng cơ sở dữ liệu chung để mọi sinh viên thấy ngay.</p>
-</div>
-</div>
+<section class="wrap sec">
+<h2>Cảnh báo từ cộng đồng sinh viên</h2>
+<p class="lead" style="font-size:15px;margin:0 0 12px">Link và số điện thoại do sinh viên báo cáo sẽ được đẩy điểm rủi ro lên khi bạn kiểm tra.</p>
+<div class="panel"><div id="list"></div>
+<div class="rep"><div><input type="text" id="rl" placeholder="Link hoặc số điện thoại lừa đảo" aria-label="Link hoặc số điện thoại" aria-describedby="e-r"><p class="err" id="e-r" role="alert" hidden></p></div>
+<select id="rk" aria-label="Loại lừa đảo"><option>Việc làm thêm giả</option><option>Học bổng giả</option><option>Chiếm đoạt tài khoản</option><option>Giả mạo ngân hàng</option><option>Giả mạo nhà trường</option></select>
+<button class="btn" id="rs">Gửi cảnh báo</button></div>
+<p class="note" style="margin-top:14px"><span>Bản hiện tại lưu cảnh báo trong trình duyệt của bạn. Bản đầy đủ sẽ dùng cơ sở dữ liệu chung.</span></p></div>
+</section>
 
-<footer class="wrap foot">SafeLink DTU · Kết quả chỉ mang tính tham khảo · Nhóm không lưu nội dung bạn kiểm tra</footer>
+<footer>
+<div class="wrap">
+<div class="fg">
+<div><b>SafeLink DTU</b>Công cụ giúp sinh viên nhận diện lừa đảo trực tuyến trước khi bấm vào link lạ.</div>
+<div id="ve-du-an"><b>Về dự án</b>Dự án của sinh viên, dùng AI để phân tích dấu hiệu lừa đảo và giải thích bằng ngôn ngữ dễ hiểu.</div>
+<div><b>Quyền riêng tư và lưu ý</b>Nhóm không lưu nội dung bạn kiểm tra. Kết quả chỉ mang tính tham khảo và không có phép phân tích nào đảm bảo an toàn tuyệt đối. Khi nghi ngờ, hãy hỏi nhà trường hoặc ngân hàng qua kênh chính thức.</div>
+</div>
+<p class="copy">© 2026 SafeLink DTU. Bảo lưu mọi quyền.</p>
+</div>
+</footer>
+
 <script>
+
 const LEGIT={dtu:['dtu.edu.vn','duytan.edu.vn'],duytan:['duytan.edu.vn','dtu.edu.vn'],vietcombank:['vietcombank.com.vn'],vcb:['vietcombank.com.vn'],techcombank:['techcombank.com'],mbbank:['mbbank.com.vn'],bidv:['bidv.com.vn'],agribank:['agribank.com.vn'],momo:['momo.vn'],zalo:['zalo.me','zalo.vn'],facebook:['facebook.com'],shopee:['shopee.vn'],tiktok:['tiktok.com'],google:['google.com']};
 const BAD_TLD=['top','xyz','click','icu','site','online','shop','live','vip','work','buzz','cfd','sbs','cc','tk','ml','ga'];
 const SHORT=['bit.ly','tinyurl.com','cutt.ly','t.ly','rebrand.ly','s.id','is.gd','shorturl.at'];
@@ -171,32 +256,66 @@ const KEY='safelink_reports';
 const SEED=[{v:'hocbong-duytan.top',k:'Học bổng giả',d:'Hôm nay'},{v:'vcb-xacminh.click',k:'Giả mạo ngân hàng',d:'Hôm qua'},{v:'tuyen-ctv-nhanh.xyz',k:'Việc làm thêm giả',d:'2 ngày trước'}];
 function load(){try{const j=localStorage.getItem(KEY);return j?JSON.parse(j):SEED}catch(e){return SEED}}
 function save(a){try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){}}
-function show(res,kind,val,src){const el=document.getElementById('result');if(!res){el.innerHTML='<p class="hint">Hãy nhập nội dung cần kiểm tra.</p>';return}
-if(kind==='url'){const h=val.replace(/^[a-z]+:\/\//i,'').split(/[\/?#]/)[0].toLowerCase();if(load().some(x=>x.v.toLowerCase()===h)){res.s=Math.max(res.s,85);res.r.unshift('Link này đã bị sinh viên khác báo cáo trong kho cảnh báo cộng đồng.')}}
-const s=res.s,lv=s<25?['ok','Rủi ro thấp','Vẫn nên kiểm tra người gửi trước khi nhập thông tin cá nhân.']:s<55?['warn','Đáng ngờ','Đừng nhập mật khẩu hay thông tin ngân hàng. Hỏi lại nhà trường hoặc bạn bè qua kênh chính thức.']:['bad','Nguy hiểm, không nên bấm','Không bấm, không chuyển tiền, không gửi OTP. Chặn người gửi và báo cáo vào kho cảnh báo bên dưới.'];
-const esc=t=>t.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-el.innerHTML='<div class="res '+lv[0]+'"><div class="rhead"><div><p class="lab">Risk · Mức rủi ro</p><h2>'+lv[1]+'</h2></div><div class="pct">'+s+'<small>/100</small></div></div><div class="bar"><i style="width:'+s+'%"></i></div><p class="lab">Vì sao</p><ul>'+res.r.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul><div class="advice">'+esc(res.advice||lv[2])+'</div><p class="hint">'+esc(src||'')+'</p></div>'}
-function render(){document.getElementById('list').innerHTML=load().slice(0,8).map(x=>'<div class="row"><span class="tag">'+x.k.replace(/[<>&]/g,'')+'</span><div>'+x.v.replace(/[<>&]/g,'')+'<small>'+x.d.replace(/[<>&]/g,'')+'</small></div></div>').join('')}
-document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x===b));document.querySelectorAll('[data-p]').forEach(p=>p.hidden=p.dataset.p!==b.dataset.t);document.getElementById('result').innerHTML=''});
-const $=id=>document.getElementById(id);
+
 async function ai(type,content,img){const c=new AbortController(),t=setTimeout(()=>c.abort(),30000);
 try{const r=await fetch('/api/check',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type,content,imageBase64:img,mimeType:'image/jpeg'}),signal:c.signal});const d=await r.json();return(!r.ok||d.error)?null:d}catch(e){return null}finally{clearTimeout(t)}}
 function toB64(f){return new Promise(ok=>{const i=new Image();i.onload=()=>{const m=1280,k=Math.min(1,m/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=i.width*k;c.height=i.height*k;c.getContext('2d').drawImage(i,0,0,c.width,c.height);ok(c.toDataURL('image/jpeg',.8).split(',')[1])};i.onerror=()=>ok(null);i.src=URL.createObjectURL(f)})}
-document.querySelectorAll('[data-go]').forEach(b=>b.onclick=async()=>{const k=b.dataset.go,el=$('result');let val,local=null,img=null;
-if(k==='url'){val=$('u').value;local=scoreUrl(val)}else if(k==='phone'){val=$('p').value;local=scorePhone(val)}else if(k==='text'){val=$('t').value;local=scoreText(val)}
-else{val=$('t2').value;const f=$('f').files[0];if(f)img=await toB64(f);local=val.trim()?scoreText(val):null}
-if(!val.trim()&&!img){show(null);return}
-el.innerHTML='<p class="hint">Đang phân tích bằng AI, chờ vài giây...</p>';
-const d=await ai(k==='img'?'image':k,val,img),kk=k==='img'?'text':k;
-if(!d){show(local||{s:30,r:['Chưa phân tích được ảnh. Hãy thử lại hoặc gõ nội dung vào ô ghi chú.']},kk,val,'AI đang bận, đây là kiểm tra cơ bản. Kết quả chỉ mang tính tham khảo.');return}
-const hit=local&&local.s>=60,res={s:hit?Math.max(local.s,d.score):d.score,r:(hit?[local.r[0]]:[]).concat(d.reasons),advice:d.advice};
+
+const $=id=>document.getElementById(id);
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const IC={shield:'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
+link:'<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+phone:'<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/>',
+msg:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+image:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/>',
+warn:'<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+ok:'<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',
+info:'<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+upload:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/>',
+menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',
+lock:'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+arrow:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>'};
+const ic=(n,s)=>'<svg viewBox="0 0 24 24" width="'+(s||18)+'" height="'+(s||18)+'" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+IC[n]+'</svg>';
+document.querySelectorAll('[data-i]').forEach(e=>{e.style.display='inline-flex';e.innerHTML=ic(e.dataset.i,e.dataset.s)});
+(function(){const P=[[200,180],[60,80],[150,36],[262,64],[344,140],[332,262],[232,322],[110,300],[48,200]];let l='',n='';
+for(let i=1;i<9;i++){const j=i%8+1;l+='<line x1="200" y1="180" x2="'+P[i][0]+'" y2="'+P[i][1]+'"/><line x1="'+P[i][0]+'" y1="'+P[i][1]+'" x2="'+P[j][0]+'" y2="'+P[j][1]+'"/>';n+='<circle class="n" cx="'+P[i][0]+'" cy="'+P[i][1]+'" r="6" style="animation-delay:'+(i*.35)+'s"/>'}
+$('ln').innerHTML=l;$('nd').innerHTML=n})();
+const err=(k,m)=>{const e=$('e-'+k);e.textContent=m||'';e.hidden=!m};
+$('mb').onclick=()=>{const o=$('nav').classList.toggle('open');$('mb').setAttribute('aria-expanded',o)};
+document.querySelectorAll('#nav a').forEach(a=>a.onclick=()=>$('nav').classList.remove('open'));
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x===b));document.querySelectorAll('[data-p]').forEach(p=>p.hidden=p.dataset.p!==b.dataset.t)});
+document.querySelectorAll('[data-ex]').forEach(b=>b.onclick=()=>{const e=$(b.dataset.to);e.value=b.dataset.ex;e.focus();if(b.dataset.to==='t')$('cnt').textContent=e.value.length+'/2000'});
+$('t').oninput=()=>$('cnt').textContent=$('t').value.length+'/2000';
+let file=null;
+function setFile(f){err('i','');if(!f)return;if(!f.type.startsWith('image/')){err('i','Hãy chọn một tệp ảnh (PNG, JPG hoặc WebP).');return}if(f.size>1e7){err('i','Ảnh lớn hơn 10 MB, hãy chọn ảnh nhỏ hơn.');return}file=f;$('pv').src=URL.createObjectURL(f);$('pvw').hidden=false;$('dz').hidden=true}
+function clearFile(){file=null;$('f').value='';$('pvw').hidden=true;$('dz').hidden=false;err('i','')}
+$('f').onchange=e=>setFile(e.target.files[0]);$('rm').onclick=clearFile;
+const dz=$('dz');['dragenter','dragover'].forEach(v=>dz.addEventListener(v,e=>{e.preventDefault();dz.classList.add('on')}));['dragleave','drop'].forEach(v=>dz.addEventListener(v,e=>{e.preventDefault();dz.classList.remove('on')}));dz.addEventListener('drop',e=>setFile(e.dataTransfer.files[0]));
+let tm;
+function loading(){const S=['Đang kiểm tra tên miền','Đang phân tích dấu hiệu bất thường','Đang tổng hợp kết quả'];$('out').innerHTML='<div class="load"><div class="scan"></div><div class="spin">'+ic('shield',46)+'</div><ul id="st">'+S.map(x=>'<li>'+x+'</li>').join('')+'</ul></div>';let i=0;const up=()=>document.querySelectorAll('#st li').forEach((l,j)=>l.className=j<i?'done':j===i?'on':'');up();clearInterval(tm);tm=setInterval(()=>{i=Math.min(i+1,2);up()},650)}
+function errCard(m){clearInterval(tm);$('out').innerHTML='<div class="ecard">'+ic('warn',22)+'<p>'+esc(m)+'</p></div>'}
+function show(res,kind,val,src){clearInterval(tm);
+if(kind==='url'){const h=val.replace(/^[a-z]+:\/\//i,'').split(/[\/?#]/)[0].toLowerCase();if(load().some(x=>x.v.toLowerCase()===h)){res.s=Math.max(res.s,85);res.r.unshift('Link này đã bị sinh viên khác báo cáo trong kho cảnh báo cộng đồng.')}}
+const s=res.s,L=s<25?['ok','An toàn','Chưa thấy dấu hiệu bất thường rõ ràng, nhưng không có kết quả nào đảm bảo an toàn tuyệt đối.',['Vẫn kiểm tra người gửi nếu bạn không chắc.','Không nhập mật khẩu hay mã OTP nếu bị yêu cầu bất ngờ.']]:s<55?['warn','Cần cảnh giác','Có một số dấu hiệu đáng ngờ. Hãy xác minh trước khi làm theo.',['Chưa bấm hoặc trả lời vội.','Xác minh qua kênh chính thức của nhà trường hoặc ngân hàng.','Hỏi bạn bè hoặc giảng viên trước khi làm theo.']]:['bad','Rủi ro cao','Nhiều dấu hiệu lừa đảo rõ ràng. Không nên tương tác.',['Không bấm link, không chuyển tiền, không gửi mã OTP.','Chặn người gửi và xóa tin nhắn.','Báo cáo vào kho cảnh báo bên dưới để bảo vệ bạn bè.','Nếu đã nhập thông tin, đổi mật khẩu và liên hệ ngân hàng ngay.']];
+const acts=(res.adv?[res.adv]:[]).concat(L[3]);
+$('out').innerHTML='<div class="res '+L[0]+'"><div class="gauge"><svg class="gz" viewBox="0 0 140 140"><circle class="gb" cx="70" cy="70" r="58"/><circle class="gf" cx="70" cy="70" r="58" stroke-dasharray="364.4" stroke-dashoffset="'+(364.4*(1-s/100)).toFixed(1)+'"/></svg><div class="gn"><b>'+s+'</b><span>/100</span></div></div><div><span class="chipv">'+ic(L[0]==='ok'?'ok':'warn',16)+L[1]+'</span><h3>'+L[2]+'</h3><p class="lab2">Tín hiệu phát hiện</p><ul>'+res.r.map(x=>'<li>'+ic(L[0]==='ok'?'info':'warn',16)+'<span>'+esc(x)+'</span></li>').join('')+'</ul><p class="lab2">Nên làm gì</p><ul class="act">'+acts.map(x=>'<li>'+ic('ok',16)+'<span>'+esc(x)+'</span></li>').join('')+'</ul><p class="fine">'+esc(src)+' Kết quả chỉ mang tính tham khảo.</p></div></div>';
+$('out').scrollIntoView({behavior:'smooth',block:'nearest'})}
+async function run(k){let val='',local=null,img=null,type=k,m='';
+if(k==='url'){val=$('u').value.trim();if(!val)m='Hãy dán đường link cần kiểm tra.';else{try{const x=new URL(/^[a-z]+:\/\//i.test(val)?val:'http://'+val);if(!x.hostname.includes('.'))m='Đường link chưa đúng định dạng.'}catch(e){m='Đường link chưa đúng định dạng.'}}err('u',m);if(m)return;local=scoreUrl(val)}
+else if(k==='phone'){const d=$('p').value.replace(/[\s.\-()]/g,'');if(!/^\d{8,14}$/.test(d))m='Số điện thoại cần từ 8 đến 14 chữ số.';err('p',m);if(m)return;val=$('cc').value+d.replace(/^0/,'');local=scorePhone(val)}
+else if(k==='text'){val=$('t').value.trim();m=val.length<10?'Hãy dán ít nhất 10 ký tự để phân tích tốt hơn.':val.length>2000?'Nội dung dài quá 2000 ký tự, hãy rút gọn.':'';err('t',m);if(m)return;local=scoreText(val)}
+else{type='image';if(!file){err('i','Hãy chọn hoặc kéo thả một ảnh chụp màn hình.');return}img=await toB64(file);if(!img){err('i','Không đọc được ảnh này, hãy thử ảnh khác.');return}err('i','')}
+loading();const[d]=await Promise.all([ai(type,val,img),new Promise(r=>setTimeout(r,1900))]);
+if(!d){if(!local){errCard('Chưa phân tích được ảnh vì AI đang bận. Hãy thử lại sau hoặc dán nội dung vào tab Tin nhắn.');return}show(local,k,val,'Đây là kiểm tra cơ bản trên trình duyệt, AI chưa phản hồi.');return}
+const hit=local&&local.s>=60,res={s:hit?Math.max(local.s,d.score):d.score,r:(hit?[local.r[0]]:[]).concat(d.reasons),adv:d.advice};
 if(d.extracted_text)res.r.push('Chữ đọc được trong ảnh: '+d.extracted_text.slice(0,200));
-show(res,kk,val,'Phân tích bởi Gemini. Kết quả chỉ mang tính tham khảo.')});
-document.getElementById('f').onchange=e=>{const f=e.target.files[0],pv=document.getElementById('pv');if(f){pv.src=URL.createObjectURL(f);pv.style.display='block'}};
-document.getElementById('rs').onclick=()=>{const v=document.getElementById('rl').value.trim();if(!v)return;const a=load().slice();a.unshift({v,k:document.getElementById('rk').value,d:'Vừa xong'});save(a);document.getElementById('rl').value='';render()};
-document.querySelectorAll('[data-ex]').forEach(b=>b.onclick=()=>{const e=document.getElementById(b.dataset.to);e.value=b.dataset.ex;e.focus()});
+if(!res.r.length)res.r.push('AI không nêu thêm dấu hiệu cụ thể.');
+show(res,k==='img'?'text':k,val,'Phân tích bởi Gemini (AI), có thể sai sót.')}
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>run(b.dataset.go));
+function render(){$('list').innerHTML=load().slice(0,8).map(x=>'<div class="row"><span class="tag">'+esc(x.k)+'</span><div>'+esc(x.v)+'<small>'+esc(x.d)+'</small></div></div>').join('')}
+$('rs').onclick=()=>{const v=$('rl').value.trim();const m=!v?'Hãy nhập link hoặc số điện thoại cần báo cáo.':v.length>200?'Nội dung quá dài.':'';err('r',m);if(m)return;const a=load().slice();a.unshift({v,k:$('rk').value,d:'Vừa xong'});save(a);$('rl').value='';render()};
 render();
 </script>
 </body>
 </html>
-
