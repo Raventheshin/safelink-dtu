@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SafeLink DTU – Kiểm tra link lừa đảo cho sinh viên</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f6f4;--card:#fff;--ink:#12261f;--mute:#5b6f66;--line:#d5dfd9;--brand:#0f6b57;--brand-ink:#fff;--ok:#1b7f4b;--warn:#b86e00;--bad:#c02a2a;--okbg:#e3f4ea;--warnbg:#fff1d6;--badbg:#fde4e4;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0e1714;--card:#16231e;--ink:#e6f0eb;--mute:#93a99f;--line:#2a3d35;--brand:#3fbf9f;--brand-ink:#06201a;--ok:#5fd493;--warn:#f0b24a;--bad:#ff7b7b;--okbg:#163a28;--warnbg:#3b2d10;--badbg:#431a1a}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 "Be Vietnam Pro",system-ui,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:24px 16px 56px}
+header h1{font-size:clamp(28px,6vw,44px);line-height:1.1;margin:8px 0 10px;font-weight:800;letter-spacing:-.02em}
+header p{margin:0;color:var(--mute);max-width:60ch}
+.tabs{display:flex;gap:6px;margin:24px 0 12px;overflow-x:auto}
+.tabs button{font:inherit;font-weight:500;padding:10px 16px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;cursor:pointer;white-space:nowrap}
+.tabs button[aria-selected=true]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+label{display:block;font-weight:700;margin-bottom:6px}
+input[type=text],textarea,select{width:100%;font:inherit;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+textarea{min-height:130px;resize:vertical}
+.go{margin-top:12px;font:inherit;font-weight:700;padding:12px 22px;border:0;border-radius:10px;background:var(--brand);color:var(--brand-ink);cursor:pointer}
+.hint{color:var(--mute);font-size:14px;margin:8px 0 0}
+#result{margin-top:20px}
+.res{border-radius:14px;padding:20px;border:2px solid}
+.res.ok{background:var(--okbg);border-color:var(--ok)}.res.warn{background:var(--warnbg);border-color:var(--warn)}.res.bad{background:var(--badbg);border-color:var(--bad)}
+.res h2{margin:0;font-size:24px}
+.meter{height:10px;border-radius:99px;background:var(--line);margin:12px 0;overflow:hidden}
+.meter i{display:block;height:100%;transition:width .5s}
+.ok .meter i{background:var(--ok)}.warn .meter i{background:var(--warn)}.bad .meter i{background:var(--bad)}
+.res ul{padding-left:20px;margin:8px 0}
+.res li{margin:6px 0}
+.advice{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-weight:500}
+h3{margin:32px 0 10px;font-size:20px}
+.row{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border:0}
+.tag{flex:none;font-size:13px;font-weight:700;padding:2px 10px;border-radius:99px;background:var(--badbg);color:var(--bad)}
+.tag.w{background:var(--warnbg);color:var(--warn)}
+.row small{color:var(--mute);display:block}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+.note{background:var(--warnbg);color:var(--ink);border-radius:10px;padding:12px;font-size:14px;margin-top:12px}
+img#pv{max-width:100%;max-height:220px;border-radius:10px;margin-top:10px;display:none}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<strong>SafeLink DTU</strong>
+<h1>Dừng 5 giây trước khi bấm vào link lạ.</h1>
+<p>Dán link, số điện thoại hoặc nội dung tin nhắn đáng ngờ. SafeLink chỉ ra dấu hiệu lừa đảo và giải thích vì sao.</p>
+</header>
+
+<div class="tabs" role="tablist">
+<button role="tab" aria-selected="true" data-t="url">Kiểm tra link</button>
+<button role="tab" aria-selected="false" data-t="phone">Số điện thoại</button>
+<button role="tab" aria-selected="false" data-t="text">Tin nhắn</button>
+<button role="tab" aria-selected="false" data-t="img">Ảnh chụp màn hình</button>
+</div>
+
+<div class="panel">
+<div data-p="url">
+<label for="u">Dán đường link cần kiểm tra</label>
+<input type="text" id="u" placeholder="Ví dụ: http://hocbong-duytan.top/nhan-thuong">
+<button class="go" data-go="url">Kiểm tra link</button>
+</div>
+<div data-p="phone" hidden>
+<label for="p">Nhập số điện thoại</label>
+<input type="text" id="p" inputmode="tel" placeholder="Ví dụ: +84 9xx xxx xxx">
+<button class="go" data-go="phone">Kiểm tra số</button>
+</div>
+<div data-p="text" hidden>
+<label for="t">Dán nội dung tin nhắn</label>
+<textarea id="t" placeholder="Ví dụ: Tuyển CTV làm tại nhà, lương 500k/ngày, chuyển cọc 200k để nhận việc..."></textarea>
+<button class="go" data-go="text">Phân tích tin nhắn</button>
+</div>
+<div data-p="img" hidden>
+<label for="f">Tải ảnh chụp màn hình tin nhắn</label>
+<input type="file" id="f" accept="image/*">
+<img id="pv" alt="Ảnh đã chọn">
+<div class="note">Ảnh được gửi tới Gemini để đọc chữ và phân tích, nhóm không lưu lại ảnh. Đừng tải lên ảnh chứa mật khẩu hay thông tin ngân hàng của bạn.</div>
+<label for="t2" style="margin-top:12px">Ghi chú thêm (không bắt buộc)</label>
+<textarea id="t2"></textarea>
+<button class="go" data-go="img">Phân tích nội dung</button>
+</div>
+<div id="result" aria-live="polite"></div>
+</div>
+
+<h3>Cảnh báo từ cộng đồng sinh viên</h3>
+<div class="panel">
+<div id="list"></div>
+<h3 style="font-size:17px;margin-top:20px">Báo cáo một link lừa đảo</h3>
+<div class="grid">
+<div><label for="rl">Link hoặc số điện thoại</label><input type="text" id="rl"></div>
+<div><label for="rk">Loại lừa đảo</label>
+<select id="rk"><option>Việc làm thêm giả</option><option>Học bổng giả</option><option>Chiếm đoạt tài khoản</option><option>Giả mạo ngân hàng</option><option>Giả mạo nhà trường</option></select></div>
+</div>
+<button class="go" id="rs">Gửi cảnh báo</button>
+<p class="hint">Bản mẫu lưu cảnh báo trong trình duyệt của bạn. Bản đầy đủ sẽ dùng cơ sở dữ liệu chung để mọi sinh viên thấy ngay.</p>
+</div>
+</div>
+
+<script>
+const LEGIT={dtu:['dtu.edu.vn','duytan.edu.vn'],duytan:['duytan.edu.vn','dtu.edu.vn'],vietcombank:['vietcombank.com.vn'],vcb:['vietcombank.com.vn'],techcombank:['techcombank.com'],mbbank:['mbbank.com.vn'],bidv:['bidv.com.vn'],agribank:['agribank.com.vn'],momo:['momo.vn'],zalo:['zalo.me','zalo.vn'],facebook:['facebook.com'],shopee:['shopee.vn'],tiktok:['tiktok.com'],google:['google.com']};
+const BAD_TLD=['top','xyz','click','icu','site','online','shop','live','vip','work','buzz','cfd','sbs','cc','tk','ml','ga'];
+const SHORT=['bit.ly','tinyurl.com','cutt.ly','t.ly','rebrand.ly','s.id','is.gd','shorturl.at'];
+const WORDS=[
+[/(chuyển khoản|chuyen khoan|đặt cọc|dat coc|nộp phí|nop phi|phí nhận|đóng phí|ứng trước)/i,30,'Yêu cầu chuyển tiền hoặc đặt cọc trước. Việc làm và học bổng thật không thu phí trước khi nhận.'],
+[/(otp|mã xác thực|mã xác minh|mật khẩu|mat khau|cung cấp mã)/i,35,'Đòi mã OTP hoặc mật khẩu. Không tổ chức nào hợp pháp hỏi bạn thông tin này qua tin nhắn.'],
+[/(việc nhẹ|lương cao|lương \d+|\d+\s?(k|tr|triệu|nghìn)?\s?\/\s?(ngày|giờ)|làm tại nhà|ctv|cộng tác viên|nhiệm vụ|like|thả tim)/i,22,'Lời mời việc nhẹ lương cao, kiểu "làm nhiệm vụ" hoặc cộng tác viên. Đây là mô típ lừa đảo việc làm thêm phổ biến.'],
+[/(trúng thưởng|trung thuong|nhận quà|nhận thưởng|miễn phí|học bổng|hoc bong)/i,18,'Nhắc đến quà, trúng thưởng hoặc học bổng bất ngờ để dụ bạn bấm link.'],
+[/(khẩn|gấp|ngay lập tức|trong 24h|trong vòng|hết hạn|sẽ bị khóa|bị khoá|tạm khóa|cuối cùng)/i,20,'Tạo áp lực thời gian để bạn không kịp suy nghĩ.'],
+[/(phòng đào tạo|phòng công tác|nhà trường|ban giám hiệu|công an|tòa án|ngân hàng|cskh|chăm sóc khách hàng)/i,15,'Xưng danh nhà trường, ngân hàng hoặc cơ quan chức năng. Hãy xác minh bằng kênh chính thức.'],
+[/(xác minh tài khoản|đăng nhập|dang nhap|cập nhật thông tin|cap nhat thong tin|xác thực)/i,15,'Yêu cầu đăng nhập hoặc cập nhật thông tin qua đường link, có thể là trang đăng nhập giả.'],
+[/(zalo|telegram|nhóm kín|inbox)/i,8,'Dẫn bạn sang Zalo/Telegram, nơi khó kiểm soát và khó truy vết.']
+];
+const reg=h=>{const p=h.split('.');if(p.length<=2)return h;const l=p[p.length-1],s=p[p.length-2];return(l.length===2&&['com','edu','gov','org','net','co'].includes(s))?p.slice(-3).join('.'):p.slice(-2).join('.')};
+function scoreUrl(raw){const r=[];let s=0;const add=(n,m)=>{s+=n;r.push(m)};let u=raw.trim();if(!u)return null;
+if(!/^[a-z]+:\/\//i.test(u))u='http://'+u;let x;try{x=new URL(u)}catch(e){return{s:50,r:['Link không đúng định dạng. Hãy kiểm tra lại cách bạn sao chép.']}}
+const h=x.hostname.toLowerCase(),d=reg(h),tld=h.split('.').pop();
+if(x.protocol==='http:')add(12,'Trang không dùng HTTPS nên dữ liệu bạn nhập có thể bị đọc lén.');
+if(/^\d+\.\d+\.\d+\.\d+$/.test(h))add(35,'Link dùng địa chỉ IP thay vì tên miền, thường thấy ở trang giả.');
+if(h.includes('xn--'))add(35,'Tên miền chứa ký tự lạ (punycode) để giả giống tên miền thật.');
+if(u.includes('@'))add(25,'Link chứa ký tự @ nhằm đánh lừa nơi bạn thực sự được đưa tới.');
+if(BAD_TLD.includes(tld))add(22,'Đuôi tên miền ".'+tld+'" rẻ và hay bị lạm dụng để dựng trang lừa đảo.');
+if((h.match(/-/g)||[]).length>=2)add(12,'Tên miền có nhiều dấu gạch ngang, thường gặp ở tên miền ghép để giả thương hiệu.');
+if(h.split('.').length>4)add(12,'Tên miền có quá nhiều tầng phụ, có thể che giấu tên miền thật.');
+if(SHORT.includes(h))add(25,'Link rút gọn che đi địa chỉ đích. Hãy mở bằng công cụ xem trước trước khi bấm.');
+if(h.length>35)add(8,'Tên miền rất dài, bất thường so với trang chính thống.');
+const low=h.replace(/[0-9]/g,c=>({0:'o',1:'l',3:'e',4:'a',5:'s'}[c]||c));
+for(const k in LEGIT){if(low.includes(k)&&!LEGIT[k].includes(d)){add(40,'Tên miền chứa "'+k+'" nhưng tên miền thật của họ là '+LEGIT[k][0]+'. Đây là dấu hiệu giả mạo.');break}}
+if(/(login|signin|verify|xacminh|xac-minh|nhan-thuong|nhanthuong|hocbong|claim|update|secure)/i.test(x.pathname+h))add(14,'Đường dẫn có từ khóa như đăng nhập, xác minh hoặc nhận thưởng.');
+if(!r.length)r.push('Không thấy dấu hiệu bất thường trong cấu trúc link. Điều này chưa đảm bảo an toàn tuyệt đối.');
+return{s:Math.min(s,100),r}}
+function scoreText(t){const r=[];let s=0;if(!t.trim())return null;WORDS.forEach(([re,n,m])=>{if(re.test(t)){s+=n;r.push(m)}});
+const urls=t.match(/(https?:\/\/[^\s]+|\b[\w-]+(\.[\w-]+)+\/[^\s]*)/gi)||[];
+urls.slice(0,3).forEach(l=>{const a=scoreUrl(l);if(a&&a.s>=30){s+=Math.round(a.s/2);r.push('Link trong tin nhắn ('+l+') có dấu hiệu bất thường: '+a.r[0])}});
+if(!r.length)r.push('Chưa thấy mẫu lừa đảo quen thuộc, nhưng vẫn nên xác minh người gửi.');return{s:Math.min(s,100),r}}
+function scorePhone(p){const n=p.replace(/[\s.\-()]/g,'');if(!n)return null;const r=[];let s=0;
+if(!/^(\+?84|0)\d{9,10}$/.test(n)&&!/^\+\d{8,14}$/.test(n)){s+=20;r.push('Số điện thoại không đúng định dạng thông thường.')}
+if(/^\+(?!84)/.test(n)){s+=30;r.push('Đầu số nước ngoài. Nhiều cuộc gọi, tin nhắn lừa đảo đến từ số quốc tế.')}
+if(/^(\+?84|0)?(1900|1800)/.test(n)){s+=10;r.push('Đầu số tổng đài. Hãy tra số chính thức trên website của đơn vị để so sánh.')}
+if(/(\d)\1{4,}/.test(n)){s+=10;r.push('Số có dãy chữ số lặp, có thể là số mua sẵn để gọi hàng loạt.')}
+const c=load().filter(x=>x.v.replace(/[\s.\-]/g,'')===n);if(c.length){s+=60;r.push('Số này đã bị sinh viên báo cáo trong kho cảnh báo cộng đồng.')}
+if(!r.length)r.push('Không thấy dấu hiệu bất thường. Nếu số tự xưng là nhà trường hay ngân hàng, hãy gọi lại số chính thức để xác minh.');
+return{s:Math.min(s,100),r}}
+const KEY='safelink_reports';
+const SEED=[{v:'hocbong-duytan.top',k:'Học bổng giả',d:'Hôm nay'},{v:'vcb-xacminh.click',k:'Giả mạo ngân hàng',d:'Hôm qua'},{v:'tuyen-ctv-nhanh.xyz',k:'Việc làm thêm giả',d:'2 ngày trước'}];
+function load(){try{const j=localStorage.getItem(KEY);return j?JSON.parse(j):SEED}catch(e){return SEED}}
+function save(a){try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){}}
+function show(res,kind,val,src){const el=document.getElementById('result');if(!res){el.innerHTML='<p class="hint">Hãy nhập nội dung cần kiểm tra.</p>';return}
+if(kind==='url'){const h=val.replace(/^[a-z]+:\/\//i,'').split(/[\/?#]/)[0].toLowerCase();if(load().some(x=>x.v.toLowerCase()===h)){res.s=Math.max(res.s,85);res.r.unshift('Link này đã bị sinh viên khác báo cáo trong kho cảnh báo cộng đồng.')}}
+const s=res.s,lv=s<25?['ok','Rủi ro thấp','Vẫn nên kiểm tra người gửi trước khi nhập thông tin cá nhân.']:s<55?['warn','Đáng ngờ','Đừng nhập mật khẩu hay thông tin ngân hàng. Hỏi lại nhà trường hoặc bạn bè qua kênh chính thức.']:['bad','Nguy hiểm, không nên bấm','Không bấm, không chuyển tiền, không gửi OTP. Chặn người gửi và báo cáo vào kho cảnh báo bên dưới.'];
+const esc=t=>t.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+el.innerHTML='<div class="res '+lv[0]+'"><h2>'+lv[1]+' ('+s+'/100)</h2><div class="meter"><i style="width:'+s+'%"></i></div><strong>Vì sao:</strong><ul>'+res.r.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul><div class="advice">'+esc(res.advice||lv[2])+'</div><p class="hint">'+esc(src||'')+'</p></div>'}
+function render(){document.getElementById('list').innerHTML=load().slice(0,8).map(x=>'<div class="row"><span class="tag">'+x.k.replace(/[<>&]/g,'')+'</span><div>'+x.v.replace(/[<>&]/g,'')+'<small>'+x.d.replace(/[<>&]/g,'')+'</small></div></div>').join('')}
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x===b));document.querySelectorAll('[data-p]').forEach(p=>p.hidden=p.dataset.p!==b.dataset.t);document.getElementById('result').innerHTML=''});
+const $=id=>document.getElementById(id);
+async function ai(type,content,img){const c=new AbortController(),t=setTimeout(()=>c.abort(),30000);
+try{const r=await fetch('/api/check',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type,content,imageBase64:img,mimeType:'image/jpeg'}),signal:c.signal});const d=await r.json();return(!r.ok||d.error)?null:d}catch(e){return null}finally{clearTimeout(t)}}
+function toB64(f){return new Promise(ok=>{const i=new Image();i.onload=()=>{const m=1280,k=Math.min(1,m/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=i.width*k;c.height=i.height*k;c.getContext('2d').drawImage(i,0,0,c.width,c.height);ok(c.toDataURL('image/jpeg',.8).split(',')[1])};i.onerror=()=>ok(null);i.src=URL.createObjectURL(f)})}
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=async()=>{const k=b.dataset.go,el=$('result');let val,local=null,img=null;
+if(k==='url'){val=$('u').value;local=scoreUrl(val)}else if(k==='phone'){val=$('p').value;local=scorePhone(val)}else if(k==='text'){val=$('t').value;local=scoreText(val)}
+else{val=$('t2').value;const f=$('f').files[0];if(f)img=await toB64(f);local=val.trim()?scoreText(val):null}
+if(!val.trim()&&!img){show(null);return}
+el.innerHTML='<p class="hint">Đang phân tích bằng AI, chờ vài giây...</p>';
+const d=await ai(k==='img'?'image':k,val,img),kk=k==='img'?'text':k;
+if(!d){show(local||{s:30,r:['Chưa phân tích được ảnh. Hãy thử lại hoặc gõ nội dung vào ô ghi chú.']},kk,val,'AI đang bận, đây là kiểm tra cơ bản. Kết quả chỉ mang tính tham khảo.');return}
+const hit=local&&local.s>=60,res={s:hit?Math.max(local.s,d.score):d.score,r:(hit?[local.r[0]]:[]).concat(d.reasons),advice:d.advice};
+if(d.extracted_text)res.r.push('Chữ đọc được trong ảnh: '+d.extracted_text.slice(0,200));
+show(res,kk,val,'Phân tích bởi Gemini. Kết quả chỉ mang tính tham khảo.')});
+document.getElementById('f').onchange=e=>{const f=e.target.files[0],pv=document.getElementById('pv');if(f){pv.src=URL.createObjectURL(f);pv.style.display='block'}};
+document.getElementById('rs').onclick=()=>{const v=document.getElementById('rl').value.trim();if(!v)return;const a=load().slice();a.unshift({v,k:document.getElementById('rk').value,d:'Vừa xong'});save(a);document.getElementById('rl').value='';render()};
+render();
+</script>
+</body>
+</html>
