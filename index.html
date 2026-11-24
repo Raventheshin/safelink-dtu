@@ -6,67 +6,83 @@
 <title>SafeLink DTU – Kiểm tra link lừa đảo cho sinh viên</title>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f3f6f4;--card:#fff;--ink:#12261f;--mute:#5b6f66;--line:#d5dfd9;--brand:#0f6b57;--brand-ink:#fff;--ok:#1b7f4b;--warn:#b86e00;--bad:#c02a2a;--okbg:#e3f4ea;--warnbg:#fff1d6;--badbg:#fde4e4;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0e1714;--card:#16231e;--ink:#e6f0eb;--mute:#93a99f;--line:#2a3d35;--brand:#3fbf9f;--brand-ink:#06201a;--ok:#5fd493;--warn:#f0b24a;--bad:#ff7b7b;--okbg:#163a28;--warnbg:#3b2d10;--badbg:#431a1a}}
+:root{--bg:#F6F4EE;--card:#FBFAF7;--ink:#111;--bgink:#F6F4EE;--mute:#6f6a60;--line:#BEB8AD;--accent:#C8381A;--warn:#9a6b00;--b1:#E6E1D7;--b2:#BEB8AD;--b3:#777;--b4:#111;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#111110;--card:#181816;--ink:#F6F4EE;--bgink:#111110;--mute:#9a958b;--line:#3a3835;--accent:#FF6A4D;--warn:#e0b04a;--b1:#1c1b18;--b2:#2a2926;--b3:#44423d;--b4:#050505}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#111110;--card:#181816;--ink:#F6F4EE;--bgink:#111110;--mute:#9a958b;--line:#3a3835;--accent:#FF6A4D;--warn:#e0b04a;--b1:#1c1b18;--b2:#2a2926;--b3:#44423d;--b4:#050505}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 "Be Vietnam Pro",system-ui,sans-serif}
-.wrap{max-width:860px;margin:0 auto;padding:24px 16px 56px}
-header h1{font-size:clamp(28px,6vw,44px);line-height:1.1;margin:8px 0 10px;font-weight:800;letter-spacing:-.02em}
-header p{margin:0;color:var(--mute);max-width:60ch}
-.tabs{display:flex;gap:6px;margin:24px 0 12px;overflow-x:auto}
-.tabs button{font:inherit;font-weight:500;padding:10px 16px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;cursor:pointer;white-space:nowrap}
-.tabs button[aria-selected=true]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
-button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
-.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
-label{display:block;font-weight:700;margin-bottom:6px}
-input[type=text],textarea,select{width:100%;font:inherit;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font:400 16px/1.7 "Be Vietnam Pro",system-ui,sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:32px 20px 24px}
+.lab{margin:0;font-size:12px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
+.hero{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-end}
+h1{margin:10px 0 6px;font-size:clamp(40px,9vw,72px);line-height:1;font-weight:500;letter-spacing:.01em}
+h1 span{color:var(--mute)}
+.tag{margin:0;letter-spacing:.06em}
+.concept{margin:0;padding:0;list-style:none;font-size:14px;letter-spacing:.05em;color:var(--mute)}
+.concept li::before{content:"• "}
+.sky{display:block;width:100%;height:auto;margin:28px 0 0;border:1px solid var(--line);border-radius:20px;background:var(--bg)}
+.sky .b1{fill:var(--b1)}.sky .b2{fill:var(--b2)}.sky .b3{fill:var(--b3)}.sky .b4{fill:var(--b4)}.sky .ac{fill:var(--accent)}
+.sys{display:grid;grid-template-columns:repeat(3,1fr);margin:18px 0 30px}
+.sys div{padding:2px 16px;border-left:1px solid var(--line);font-size:14px}
+.sys div:first-child{border:0;padding-left:0}
+.sys b{display:block;font-weight:500;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+.tabs button{display:flex;align-items:center;gap:8px;font:inherit;font-size:14px;letter-spacing:.03em;padding:8px 18px;border:1px solid var(--line);border-radius:99px;background:transparent;color:var(--ink);cursor:pointer;transition:background .2s,color .2s}
+.tabs button:hover{border-color:var(--ink)}
+.tabs button[aria-selected=true]{background:var(--ink);color:var(--bgink);border-color:var(--ink)}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px}
+label{display:block;margin-bottom:8px;font-size:12px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
+input[type=text],input[type=file],textarea,select{width:100%;font:inherit;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:transparent;color:var(--ink)}
+input[type=text]:focus,textarea:focus{border-color:var(--ink)}
 textarea{min-height:130px;resize:vertical}
-.go{margin-top:12px;font:inherit;font-weight:700;padding:12px 22px;border:0;border-radius:10px;background:var(--brand);color:var(--brand-ink);cursor:pointer}
-.hint{color:var(--mute);font-size:14px;margin:8px 0 0}
-#result{margin-top:20px}
-.res{border-radius:14px;padding:20px;border:2px solid}
-.res.ok{background:var(--okbg);border-color:var(--ok)}.res.warn{background:var(--warnbg);border-color:var(--warn)}.res.bad{background:var(--badbg);border-color:var(--bad)}
-.res h2{margin:0;font-size:24px}
-.meter{height:10px;border-radius:99px;background:var(--line);margin:12px 0;overflow:hidden}
-.meter i{display:block;height:100%;transition:width .5s}
-.ok .meter i{background:var(--ok)}.warn .meter i{background:var(--warn)}.bad .meter i{background:var(--bad)}
-.res ul{padding-left:20px;margin:8px 0}
-.res li{margin:6px 0}
-.advice{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-weight:500}
-h3{margin:32px 0 10px;font-size:20px}
-.row{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}
+.go{margin-top:16px;font:inherit;letter-spacing:.04em;padding:12px 30px;border:0;border-radius:99px;background:var(--ink);color:var(--bgink);cursor:pointer;transition:opacity .15s}
+.go:hover{opacity:.82}
+.chips{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px;font-size:13px;color:var(--mute)}
+.chip{font:inherit;font-size:13px;padding:3px 14px;border-radius:99px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.chip:hover{border-color:var(--ink)}
+.hint{color:var(--mute);font-size:13px;margin:12px 0 0}
+#result{margin-top:22px}
+.res{--c:var(--ink);border:1px solid var(--c);border-radius:18px;padding:22px;animation:in .35s ease}
+.res.warn{--c:var(--warn)}.res.bad{--c:var(--accent)}
+.rhead{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.res h2{margin:6px 0 0;font-size:24px;font-weight:500;line-height:1.2;color:var(--c)}
+.pct{font-size:46px;line-height:1;font-weight:500;color:var(--c)}.pct small{font-size:14px;color:var(--mute);font-weight:400}
+.bar{height:12px;border:1px solid var(--c);border-radius:99px;overflow:hidden;margin:14px 0 18px}
+.bar i{display:block;height:100%;background:var(--c);animation:grow .8s ease}
+.res ul{padding-left:20px;margin:8px 0}.res li{margin:6px 0}
+.advice{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+@keyframes in{from{opacity:0;transform:translateY(8px)}}
+@keyframes grow{from{width:0}}
+h3{margin:42px 0 14px;font-size:12px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
+.row{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}
 .row:last-child{border:0}
-.tag{flex:none;font-size:13px;font-weight:700;padding:2px 10px;border-radius:99px;background:var(--badbg);color:var(--bad)}
-.tag.w{background:var(--warnbg);color:var(--warn)}
+.tag-x,.row .tag{flex:none;font-size:12px;letter-spacing:.04em;padding:2px 12px;border-radius:99px;border:1px solid var(--accent);color:var(--accent)}
 .row small{color:var(--mute);display:block}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media(max-width:600px){.grid{grid-template-columns:1fr}}
-.note{background:var(--warnbg);color:var(--ink);border-radius:10px;padding:12px;font-size:14px;margin-top:12px}
-img#pv{max-width:100%;max-height:220px;border-radius:10px;margin-top:10px;display:none}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media(max-width:620px){.grid{grid-template-columns:1fr}.tabs button span{display:none}.tabs button[aria-selected=true] span{display:inline}.sys{grid-template-columns:1fr;gap:8px}.sys div{border:0;padding:0}}
+.note{border:1px dashed var(--line);border-radius:14px;padding:12px 14px;font-size:14px;margin-top:12px}
+img#pv{max-width:100%;max-height:220px;border-radius:14px;margin-top:10px;display:none}
+.foot{text-align:center;color:var(--mute);font-size:12px;letter-spacing:.08em;padding-top:8px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
-<strong>SafeLink DTU</strong>
-<h1>Dừng 5 giây trước khi bấm vào link lạ.</h1>
-<p>Dán link, số điện thoại hoặc nội dung tin nhắn đáng ngờ. SafeLink chỉ ra dấu hiệu lừa đảo và giải thích vì sao.</p>
+<div class="hero"><div><p class="lab">Online safety · Sinh viên DTU</p><h1>SafeLink<span> DTU</span></h1><p class="tag">Dừng 5 giây. Rồi hãy bấm.</p></div>
+<ul class="concept"><li>Dán link, số điện thoại, tin nhắn</li><li>AI chỉ ra dấu hiệu lừa đảo</li><li>Biết rủi ro trước khi bấm</li></ul></div>
+<svg class="sky" viewBox="0 0 800 180" role="img" aria-label="Thành phố và tấm khiên bảo vệ"><rect class="b1" x="20" y="90" width="60" height="90"/><rect class="b1" x="110" y="70" width="50" height="110"/><rect class="b1" x="300" y="80" width="70" height="100"/><rect class="b1" x="520" y="60" width="60" height="120"/><rect class="b1" x="700" y="85" width="70" height="95"/><rect class="b2" x="60" y="110" width="70" height="70"/><rect class="b2" x="170" y="95" width="60" height="85"/><rect class="b2" x="380" y="100" width="80" height="80"/><rect class="b2" x="470" y="120" width="60" height="60"/><rect class="b2" x="600" y="90" width="70" height="90"/><rect class="b3" x="0" y="135" width="110" height="45"/><rect class="b3" x="240" y="120" width="70" height="60"/><rect class="b3" x="430" y="140" width="100" height="40"/><rect class="b3" x="650" y="125" width="90" height="55"/><rect class="b4" x="130" y="150" width="120" height="30"/><rect class="b4" x="540" y="155" width="140" height="25"/><g transform="translate(596 131)"><path class="ac" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></g></svg>
+<div class="sys"><div><span class="lab">01 · Dán</span><b>Nội dung đáng ngờ</b></div><div><span class="lab">02 · Phân tích</span><b>AI đọc dấu hiệu</b></div><div><span class="lab">03 · Cảnh báo</span><b>Điểm rủi ro kèm lý do</b></div></div>
 </header>
 
-<div class="tabs" role="tablist">
-<button role="tab" aria-selected="true" data-t="url">Kiểm tra link</button>
-<button role="tab" aria-selected="false" data-t="phone">Số điện thoại</button>
-<button role="tab" aria-selected="false" data-t="text">Tin nhắn</button>
-<button role="tab" aria-selected="false" data-t="img">Ảnh chụp màn hình</button>
-</div>
+<div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-t="url"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><span>Kiểm tra link</span></button><button role="tab" aria-selected="false" data-t="phone"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg><span>Số điện thoại</span></button><button role="tab" aria-selected="false" data-t="text"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Tin nhắn</span></button><button role="tab" aria-selected="false" data-t="img"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></svg><span>Ảnh chụp màn hình</span></button></div>
 
 <div class="panel">
 <div data-p="url">
 <label for="u">Dán đường link cần kiểm tra</label>
 <input type="text" id="u" placeholder="Ví dụ: http://hocbong-duytan.top/nhan-thuong">
+<div class="chips"><span>Thử nhanh:</span><button type="button" class="chip" data-to="u" data-ex="http://hocbong-duytan.top/nhan-thuong">Link học bổng giả</button><button type="button" class="chip" data-to="u" data-ex="https://dtu.edu.vn">Trang DTU thật</button></div>
 <button class="go" data-go="url">Kiểm tra link</button>
 </div>
 <div data-p="phone" hidden>
@@ -77,6 +93,7 @@ img#pv{max-width:100%;max-height:220px;border-radius:10px;margin-top:10px;displa
 <div data-p="text" hidden>
 <label for="t">Dán nội dung tin nhắn</label>
 <textarea id="t" placeholder="Ví dụ: Tuyển CTV làm tại nhà, lương 500k/ngày, chuyển cọc 200k để nhận việc..."></textarea>
+<div class="chips"><span>Thử nhanh:</span><button type="button" class="chip" data-to="t" data-ex="Tuyển CTV làm tại nhà, lương 500k/ngày. Chuyển cọc 200k để nhận việc ngay, hết hạn trong 24h! Liên hệ Zalo để nhận nhiệm vụ.">Tin nhắn việc làm giả</button></div>
 <button class="go" data-go="text">Phân tích tin nhắn</button>
 </div>
 <div data-p="img" hidden>
@@ -105,6 +122,7 @@ img#pv{max-width:100%;max-height:220px;border-radius:10px;margin-top:10px;displa
 </div>
 </div>
 
+<footer class="wrap foot">SafeLink DTU · Kết quả chỉ mang tính tham khảo · Nhóm không lưu nội dung bạn kiểm tra</footer>
 <script>
 const LEGIT={dtu:['dtu.edu.vn','duytan.edu.vn'],duytan:['duytan.edu.vn','dtu.edu.vn'],vietcombank:['vietcombank.com.vn'],vcb:['vietcombank.com.vn'],techcombank:['techcombank.com'],mbbank:['mbbank.com.vn'],bidv:['bidv.com.vn'],agribank:['agribank.com.vn'],momo:['momo.vn'],zalo:['zalo.me','zalo.vn'],facebook:['facebook.com'],shopee:['shopee.vn'],tiktok:['tiktok.com'],google:['google.com']};
 const BAD_TLD=['top','xyz','click','icu','site','online','shop','live','vip','work','buzz','cfd','sbs','cc','tk','ml','ga'];
@@ -157,7 +175,7 @@ function show(res,kind,val,src){const el=document.getElementById('result');if(!r
 if(kind==='url'){const h=val.replace(/^[a-z]+:\/\//i,'').split(/[\/?#]/)[0].toLowerCase();if(load().some(x=>x.v.toLowerCase()===h)){res.s=Math.max(res.s,85);res.r.unshift('Link này đã bị sinh viên khác báo cáo trong kho cảnh báo cộng đồng.')}}
 const s=res.s,lv=s<25?['ok','Rủi ro thấp','Vẫn nên kiểm tra người gửi trước khi nhập thông tin cá nhân.']:s<55?['warn','Đáng ngờ','Đừng nhập mật khẩu hay thông tin ngân hàng. Hỏi lại nhà trường hoặc bạn bè qua kênh chính thức.']:['bad','Nguy hiểm, không nên bấm','Không bấm, không chuyển tiền, không gửi OTP. Chặn người gửi và báo cáo vào kho cảnh báo bên dưới.'];
 const esc=t=>t.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-el.innerHTML='<div class="res '+lv[0]+'"><h2>'+lv[1]+' ('+s+'/100)</h2><div class="meter"><i style="width:'+s+'%"></i></div><strong>Vì sao:</strong><ul>'+res.r.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul><div class="advice">'+esc(res.advice||lv[2])+'</div><p class="hint">'+esc(src||'')+'</p></div>'}
+el.innerHTML='<div class="res '+lv[0]+'"><div class="rhead"><div><p class="lab">Risk · Mức rủi ro</p><h2>'+lv[1]+'</h2></div><div class="pct">'+s+'<small>/100</small></div></div><div class="bar"><i style="width:'+s+'%"></i></div><p class="lab">Vì sao</p><ul>'+res.r.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul><div class="advice">'+esc(res.advice||lv[2])+'</div><p class="hint">'+esc(src||'')+'</p></div>'}
 function render(){document.getElementById('list').innerHTML=load().slice(0,8).map(x=>'<div class="row"><span class="tag">'+x.k.replace(/[<>&]/g,'')+'</span><div>'+x.v.replace(/[<>&]/g,'')+'<small>'+x.d.replace(/[<>&]/g,'')+'</small></div></div>').join('')}
 document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x===b));document.querySelectorAll('[data-p]').forEach(p=>p.hidden=p.dataset.p!==b.dataset.t);document.getElementById('result').innerHTML=''});
 const $=id=>document.getElementById(id);
@@ -176,7 +194,9 @@ if(d.extracted_text)res.r.push('Chữ đọc được trong ảnh: '+d.extracted
 show(res,kk,val,'Phân tích bởi Gemini. Kết quả chỉ mang tính tham khảo.')});
 document.getElementById('f').onchange=e=>{const f=e.target.files[0],pv=document.getElementById('pv');if(f){pv.src=URL.createObjectURL(f);pv.style.display='block'}};
 document.getElementById('rs').onclick=()=>{const v=document.getElementById('rl').value.trim();if(!v)return;const a=load().slice();a.unshift({v,k:document.getElementById('rk').value,d:'Vừa xong'});save(a);document.getElementById('rl').value='';render()};
+document.querySelectorAll('[data-ex]').forEach(b=>b.onclick=()=>{const e=document.getElementById(b.dataset.to);e.value=b.dataset.ex;e.focus()});
 render();
 </script>
 </body>
 </html>
+
